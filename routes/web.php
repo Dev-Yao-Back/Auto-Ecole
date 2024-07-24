@@ -178,8 +178,6 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 Route::get('/layouts/collapsed-menu', [CollapsedMenu::class, 'index'])->name('layouts-collapsed-menu');
 Route::get('/layouts/content-navbar', [ContentNavbar::class, 'index'])->name('layouts-content-navbar');
 Route::get('/layouts/content-nav-sidebar', [ContentNavSidebar::class, 'index'])->name('layouts-content-nav-sidebar');
-Route::get('/layouts/navbar-full', [NavbarFull::class, 'index'])->name('layouts-navbar-full');
-Route::get('/layouts/navbar-full-sidebar', [NavbarFullSidebar::class, 'index'])->name('layouts-navbar-full-sidebar');
 Route::get('/layouts/horizontal', [Horizontal::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/vertical', [Vertical::class, 'index'])->name('dashboard-analytics');
 Route::get('/layouts/without-menu', [WithoutMenu::class, 'index'])->name('layouts-without-menu');
@@ -284,7 +282,6 @@ Route::get('/cards/basic', [CardBasic::class, 'index'])->name('cards-basic');
 Route::get('/cards/advance', [CardAdvance::class, 'index'])->name('cards-advance');
 Route::get('/cards/statistics', [CardStatistics::class, 'index'])->name('cards-statistics');
 Route::get('/cards/analytics', [CardAnalytics::class, 'index'])->name('cards-analytics');
-Route::get('/cards/gamifications', [CardGamifications::class, 'index'])->name('cards-gamifications');
 Route::get('/cards/actions', [CardActions::class, 'index'])->name('cards-actions');
 
 // User Interface
@@ -370,15 +367,16 @@ Route::resource('/user-list', UserManagement::class);
 Route::get('/', [InscriptionController::class, 'index']);
 Route::post('/inscire', [InscriptionController::class, 'store'])->name('inscire');
 // route pour le liens
-Route::get('/unique-link/{unique_link}', [UserController::class, 'useLink'])->name('unique.link');
 
 //Donation
 Route::get('/', [DonationController::class, 'index']);
 Route::post('/donate', [DonationController::class, 'processDonation'])->name('donate');
 
-Route::get('/', [CandidatController::class, 'feetch'])->name('inscription');
+Route::get('/pos', [CandidatController::class, 'feetch'])->name('pos');
 Route::post('/inscription',[candidatController::class, 'store'])->name('inscription.store');
 
 //pdf
 Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate-pdf');
 Route::get('/receipt', [ReceiptController::class, 'showReceipt'])->name('show.receipt');
+
+Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
