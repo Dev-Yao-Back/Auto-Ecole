@@ -53,10 +53,12 @@ class CandidatResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('lib_subvention')->required(),
                 Forms\Components\TextInput::make('reste')->numeric()->required(),
-                Forms\Components\Select::make('status')
+                Forms\Components\Select::make('autre')
                     ->options([
-                        'active' => 'Active',
-                        'inactive' => 'Inactive',
+                        'Deja inscrit ailleur' => 'Deja inscrit ailleur',
+                        'pas encore inscrit' => 'pas encore inscrit',
+                        'je ne sais' => 'je ne sais',
+
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('piece_rec')->required(),
@@ -64,6 +66,21 @@ class CandidatResource extends Resource
                 Forms\Components\TextInput::make('number_piece')->required(),
                 Forms\Components\TextInput::make('categorie_permis')->required(),
                 Forms\Components\TextInput::make('moyen_payement')->required(),
+
+                Forms\Components\Select::make('statut_id')
+                ->relationship('statut', 'type_statut')
+                ->searchable()
+                ->preload()
+                ->createOptionForm([
+                    Forms\Components\TextInput::make('lib_statut')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('type_statut')
+                        ->required()
+                        ->maxLength(255),
+
+                ])
+                ->required()
       ]);
     }
 
@@ -72,16 +89,21 @@ class CandidatResource extends Resource
         return $table
             ->columns([
               TextColumn::make('id')->sortable(),
-              TextColumn::make('matricule')->sortable()->searchable(),
+              TextColumn::make('statut.type_statut')->sortable()->searchable(),
               TextColumn::make('name')->sortable()->searchable(),
               TextColumn::make('surname')->sortable()->searchable(),
               TextColumn::make('tel_number1')->sortable()->searchable(),
               TextColumn::make('sexe')->sortable()->searchable(),
-              TextColumn::make('date_birth')->date()->sortable()->searchable(),
-              TextColumn::make('status')->sortable()->searchable(),
+
               TextColumn::make('created_at')->dateTime(),            ])
             ->filters([
-                //
+              Tables\Filters\SelectFilter::make('statut_id')
+              ->options([
+                  '1' => 'Actif',
+                  '2' => 'Inctif',
+
+
+              ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('lib_subvention');
             $table->string('amont');
             $table->string('reste');
-            $table->string('status');
+            $table->string('autre');
             $table->string('piece_rec');
             $table->string('piece_ver');
             $table->string('number_piece');
@@ -38,6 +38,8 @@ return new class extends Migration
             $table->foreign('subvention_id')->references('id')->on('subventions');
             $table->unsignedBigInteger('piece_id');
             $table->foreign('piece_id')->references('id')->on('pieces');
+            $table->unsignedBigInteger('statut_id');
+            $table->foreign('statut_id')->references('id')->on('statuts');
             $table->timestamps();
         });
     }

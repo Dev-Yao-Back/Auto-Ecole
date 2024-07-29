@@ -65,6 +65,9 @@ class StatsOverview extends BaseWidget
             Stat::make('Total Payments by Week', $totalPaymentsByWeek),
             Stat::make('Total Payments by Month', $totalPaymentsByMonth),
             Stat::make('Total Payments by Year', $totalPaymentsByYear),
+            Stat::make('Actif', Candidat::query()->where('statut_id', 2)->count()),
+            Stat::make('Inactif', Candidat::query()->where('statut_id', 1)->count()),
+
         ];
     }
 }

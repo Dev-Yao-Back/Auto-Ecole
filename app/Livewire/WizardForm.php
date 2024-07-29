@@ -191,10 +191,12 @@ class WizardForm extends Component
             'subvention_id' => $this->subvention,
             'lib_subvention' => $this->lib_subvention,
             'reste' => $this->reste,
-            'status' => $this->autre,
+            'autre' => $this->autre,
             'piece_rec' => $rectoPath,
             'piece_ver' => $versoPath,
             'moyen_payement' => 1,
+            'statut_id' => 1 ,
+
         ]);
 
         $this->open();

@@ -26,28 +26,33 @@ class Candidat extends Model
         'piece_id',
         'lib_subvention',
         'reste',
-        'status',
+        'autre',
         'piece_rec',
         'piece_ver',
         'number_piece',
         'categorie_permis',
         'moyen_payement',
+        'statut_id'
     ];
 
 
     public function pieces()
     {
-        return $this->belongsTo(Piece::class);
+        return $this->belongsTo(Piece::class,'piece_id');
     }
 
     public function subventions()
     {
-        return $this->belongsTo(Subvention::class);
+        return $this->belongsTo(Subvention::class,'subvention_id');
     }
 
     public function sources()
     {
-        return $this->belongsTo(Source::class);
+        return $this->belongsTo(Source::class,'source_id');
+    }
+    public function statut()
+    {
+        return $this->belongsTo(Statut::class,'statut_id');
     }
 }
 
