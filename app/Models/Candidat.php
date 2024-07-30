@@ -32,7 +32,14 @@ class Candidat extends Model
         'number_piece',
         'categorie_permis',
         'moyen_payement',
-        'statut_id'
+        'statut_id',
+        
+    ];
+
+    protected $casts = [
+       
+        'is_visible' => 'boolean',
+        
     ];
 
 

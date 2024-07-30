@@ -80,7 +80,12 @@ class CandidatResource extends Resource
                         ->maxLength(255),
 
                 ])
-                ->required()
+                ->required(),
+                Forms\Components\Toggle::make('is_visible')
+                ->label('Visible')
+                ->helperText('cliquer pour valider le candiat.')
+                ->default(true)
+                ->required(),
       ]);
     }
 
@@ -89,13 +94,17 @@ class CandidatResource extends Resource
         return $table
             ->columns([
               TextColumn::make('id')->sortable(),
-              TextColumn::make('statut.type_statut')->sortable()->searchable(),
-              TextColumn::make('name')->sortable()->searchable(),
-              TextColumn::make('surname')->sortable()->searchable(),
-              TextColumn::make('tel_number1')->sortable()->searchable(),
-              TextColumn::make('sexe')->sortable()->searchable(),
+              Tables\Columns\IconColumn::make('is_visible')
+                    ->label('Validité')
+                    ->sortable()
+                    ->toggleable(),
+              TextColumn::make('statut.type_statut')->sortable()->searchable()->toggleable(),
+              TextColumn::make('name')->sortable()->searchable()->toggleable(),
+              TextColumn::make('surname')->sortable()->searchable()->toggleable(),
+              TextColumn::make('tel_number1')->sortable()->searchable()->toggleable(),
+              TextColumn::make('sexe')->sortable()->searchable()->toggleable(),
 
-              TextColumn::make('created_at')->dateTime(),            ])
+              TextColumn::make('created_at')->dateTime()->toggleable(),            ])
             ->filters([
               Tables\Filters\SelectFilter::make('statut_id')
               ->options([
@@ -111,8 +120,10 @@ class CandidatResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                        
                 ]),
             ]);
+            
     }
 
     public static function getRelations(): array
@@ -128,6 +139,13 @@ class CandidatResource extends Resource
             'index' => Pages\ListCandidats::route('/'),
             'create' => Pages\CreateCandidat::route('/create'),
             'edit' => Pages\EditCandidat::route('/{record}/edit'),
+        ];
+    }
+
+    public static function rules(): array
+    {
+        return [
+            'is_visible' => 'required|boolean',
         ];
     }
 }

@@ -40,6 +40,7 @@ return new class extends Migration
             $table->foreign('piece_id')->references('id')->on('pieces');
             $table->unsignedBigInteger('statut_id');
             $table->foreign('statut_id')->references('id')->on('statuts');
+            $table->boolean('is_visible')->default(false);
             $table->timestamps();
         });
     }
