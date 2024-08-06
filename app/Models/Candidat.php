@@ -33,14 +33,10 @@ class Candidat extends Model
         'categorie_permis',
         'moyen_payement',
         'statut_id',
-        
+
     ];
 
-    protected $casts = [
-       
-        'is_visible' => 'boolean',
-        
-    ];
+
 
 
     public function pieces()
@@ -62,5 +58,3 @@ class Candidat extends Model
         return $this->belongsTo(Statut::class,'statut_id');
     }
 }
-
-

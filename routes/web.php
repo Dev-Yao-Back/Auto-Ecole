@@ -163,6 +163,7 @@ use App\Http\Controllers\DonationController;
 use App\Http\Controllers\CandidatController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\CandidatOnlineController;
 
 
 
@@ -380,3 +381,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('genera
 Route::get('/receipt', [ReceiptController::class, 'showReceipt'])->name('show.receipt');
 
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
+
+// Online
+Route::get('/candidat', [CandidatOnlineController::class, 'index'])->name('front-pages-online');
+Route::get('/candidat/congrat', [CandidatOnlineController::class, 'congrat'])->name('front-pages-online-congrat');

@@ -73,9 +73,10 @@
         }
 
         .barcode-wrapper {
-          display: flex;
-          justify-content: center; /* Centre l'élément horizontalement */
-      }
+            display: flex;
+            justify-content: center;
+            /* Centre l'élément horizontalement */
+        }
 
         .invoice .footer {
             text-align: center;
@@ -151,16 +152,16 @@
                 <p>Moyen de Paiement : {{ $payment_method }}</p>
             </div>
             <div class="barcode-wrapper">
-            <div class="barcode">
-                @if ($qrCode)
-                    {!! $qrCode !!}
-                @endif
+                <div class="barcode">
+                    @if ($qrCode)
+                        {!! $qrCode !!}
+                    @endif
 
-                <p>Merci Et À Bientôt</p>
-                <p>By Auto.Genius.Ci</p>
+                    <p>Merci Et À Bientôt</p>
+                    <p>By Auto.Genius.Ci</p>
 
+                </div>
             </div>
-          </div>
         </div>
     </div>
 </body>

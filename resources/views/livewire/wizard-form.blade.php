@@ -68,9 +68,9 @@
                         <div id="checkout-confirmation" class="container">
 
                             @include('dons.components.confirme')
-                                @if($isOpen)
-                                    @include('dons.components.modale')
-                                @endif
+                            @if ($isOpen)
+                                @include('dons.components.modale')
+                            @endif
                         </div>
                     @endif
 
@@ -83,4 +83,3 @@
     </div>
 
 </div>
-

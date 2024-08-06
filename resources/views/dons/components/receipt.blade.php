@@ -73,9 +73,11 @@
         }
 
         .barcode-wrapper {
-          display: flex;
-          justify-content: center; /* Centre l'élément horizontalement */
-      }
+            display: flex;
+            justify-content: center;
+            /* Centre l'élément horizontalement */
+        }
+
         .invoice .footer {
             text-align: center;
             margin-top: 10px;
@@ -106,7 +108,7 @@
                     <p>Client : {{ $name . ' ' . $surname }} </p>
                     <p>Sexe : {{ $sexe }}</p>
                     <p>Né(e) le : {{ $date_born }}</p>
-                    <p>Numéro de Téléphone : {{ $phone1 }}</p>
+                    <p>Numéro de Téléphone : {{ $tel_number1 }}</p>
                     <p>Magasin : Genius Auto</p>
                 </div>
             </div>
@@ -152,13 +154,13 @@
                 <p>Moyen de Paiement : Cash</p>
             </div>
             <div class="barcode-wrapper">
-            <div class="barcode">
-                <p>Merci Et À Bientôt</p>
-                @if ($qrCode)
-                    {!! $qrCode !!}
-                @endif
+                <div class="barcode">
+                    <p>Merci Et À Bientôt</p>
+                    @if ($qrCode)
+                        {!! $qrCode !!}
+                    @endif
+                </div>
             </div>
-          </div>
 
         </div>
     </div>

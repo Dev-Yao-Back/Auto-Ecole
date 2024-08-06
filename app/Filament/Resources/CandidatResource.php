@@ -13,6 +13,10 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use App\Models\CategorieModel as Categorie;
+use App\Models\Statut;
 
 class CandidatResource extends Resource
 {
@@ -106,6 +110,25 @@ class CandidatResource extends Resource
 
               TextColumn::make('created_at')->dateTime()->toggleable(),            ])
             ->filters([
+              SelectFilter::make('categorie_permis')
+                ->options(Categorie::all()->pluck('type', 'id')) // Assurez-vous que la relation ou le champ existe
+                ->label('Catégorie de Permis'),
+
+            SelectFilter::make('statut_id')
+                ->options(Statut::all()->pluck('type_statut', 'id')) // Utilisez le champ approprié
+                ->label('Statut'),
+
+            Filter::make('created_at')
+                ->form([
+                    Forms\Components\DatePicker::make('start_date')->label('Date Start'),
+                    Forms\Components\DatePicker::make('end_date')->label('Date End'),
+                ])
+                ->query(function (Builder $query, array $data) {
+                    return $query
+                        ->when($data['start_date'], fn ($query, $start) => $query->whereDate('created_at', '>=', $start))
+                        ->when($data['end_date'], fn ($query, $end) => $query->whereDate('created_at', '<=', $end));
+                })
+                ->label('Date de Création'),
               Tables\Filters\SelectFilter::make('statut_id')
               ->options([
                   '1' => 'Actif',
@@ -116,14 +139,16 @@ class CandidatResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                        
+
                 ]),
             ]);
-            
+
     }
 
     public static function getRelations(): array
@@ -148,4 +173,6 @@ class CandidatResource extends Resource
             'is_visible' => 'required|boolean',
         ];
     }
+
+
 }

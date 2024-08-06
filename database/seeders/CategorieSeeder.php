@@ -17,7 +17,23 @@ class CategorieSeeder extends Seeder
     {
 
       $category = new CategorieModel();
-      $category->type = "Categorie";
+      $category->type = "A";
+      $category->save();
+
+      $category = new CategorieModel();
+      $category->type = "B";
+      $category->save();
+
+      $category = new CategorieModel();
+      $category->type = "AB";
+      $category->save();
+
+      $category = new CategorieModel();
+      $category->type = "BCDE";
+      $category->save();
+
+      $category = new CategorieModel();
+      $category->type = "ABCDE";
       $category->save();
 
     }

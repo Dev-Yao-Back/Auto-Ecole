@@ -4,7 +4,7 @@
 @endphp
 @extends('layouts/layoutMaster')
 
-@section('title', 'MVC 2024 - Dons')
+@section('title', 'Genius Auto Ecole - POS')
 
 <!-- Vendor Styles -->
 @section('vendor-style')

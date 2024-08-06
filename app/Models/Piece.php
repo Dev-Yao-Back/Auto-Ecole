@@ -12,9 +12,7 @@ class Piece extends Model
         'type_piece'
     ];
 
-    
 
-      
     public function candidats()
     {
         return $this->hasMany(Candidat::class);

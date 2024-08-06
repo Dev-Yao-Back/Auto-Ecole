@@ -21,7 +21,7 @@
     dir="{{ $configData['textDirection'] }}" data-theme="{{ $configData['theme'] }}"
     data-assets-path="{{ asset('/assets') . '/' }}" data-base-url="{{ url('/') }}" data-framework="laravel"
     data-template="{{ $configData['layout'] . '-menu-' . $configData['theme'] . '-' . $configData['styleOpt'] }}">
-    
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -49,6 +49,8 @@
     <!-- Include Scripts for customizer, helper, analytics, config -->
     <!-- $isFront is used to append the front layout scriptsIncludes only on the front layout otherwise the variable will be blank -->
     @include('layouts/sections/scriptsIncludes' . $isFront)
+
+    @livewireStyles()
 </head>
 
 <body>
@@ -64,6 +66,7 @@
     <!-- $isFront is used to append the front layout scripts only on the front layout otherwise the variable will be blank -->
     @include('layouts/sections/scripts' . $isFront)
 
+    @livewireScripts()
 </body>
 
 </html>
