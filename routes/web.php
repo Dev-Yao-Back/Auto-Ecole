@@ -164,6 +164,7 @@ use App\Http\Controllers\CandidatController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\CandidatOnlineController;
+use App\Http\Controllers\CommercialController;
 
 
 
@@ -385,3 +386,9 @@ Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
 // Online
 Route::get('/candidat', [CandidatOnlineController::class, 'index'])->name('front-pages-online');
 Route::get('/candidat/congrat', [CandidatOnlineController::class, 'congrat'])->name('front-pages-online-congrat');
+Route::get('/candidat/payement', [CandidatOnlineController::class, 'payement'])->name('front-pages-online-payement');
+
+// Commercial
+Route::get('/commercial/register', [CommercialController::class, 'showRegister'])->name('commercial.showRegister');
+Route::post('/commercial/store', [CommercialController::class, 'register'])->name('commercial.register');
+Route::get('/dashboard/commercial', [CommercialController::class, 'showCommercial'])->name('dashboard.commercial');

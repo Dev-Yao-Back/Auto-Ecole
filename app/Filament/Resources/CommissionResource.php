@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategorieResource\Pages;
-use App\Filament\Resources\CategorieResource\RelationManagers;
-use App\Models\CategorieModel;
+use App\Filament\Resources\CommissionResource\Pages;
+use App\Filament\Resources\CommissionResource\RelationManagers;
+use App\Models\Commission;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,44 +15,38 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 
 
-class CategorieResource extends Resource
+class CommissionResource extends Resource
 {
+    protected static ?string $model = Commission::class;
 
-
-    protected static ?string $model = CategorieModel::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
-    protected static ?string $navigationGroup = 'Learning';
-
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-          Forms\Components\TextInput::make('type')
-              ->required()
-              ->maxLength(255),
-      ]);
+            ->schema([
+              BelongsToSelect::make('user_id')
+              ->relationship('user', 'name')->required(),
+          TextInput::make('amount')->required(),
+          TextInput::make('level')->required(),            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-              TextColumn::make('id')->sortable(),
-              TextColumn::make('type')->sortable()->searchable(),
-              TextColumn::make('created_at')->dateTime(),            ])
+              TextColumn::make('user.name')->label('User'),
+              TextColumn::make('amount'),
+              TextColumn::make('level'),            ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-
                 ]),
             ]);
     }
@@ -67,9 +61,9 @@ class CategorieResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategorie::route('/create'),
-            'edit' => Pages\EditCategorie::route('/{record}/edit'),
+            'index' => Pages\ListCommissions::route('/'),
+            'create' => Pages\CreateCommission::route('/create'),
+            'edit' => Pages\EditCommission::route('/{record}/edit'),
         ];
     }
 }

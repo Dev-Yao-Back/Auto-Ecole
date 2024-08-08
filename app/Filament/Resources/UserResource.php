@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -54,6 +55,7 @@ class UserResource extends Resource
                 TextColumn::make('email')->sortable()->searchable(),
                 TextColumn::make('roles.name')->label('Roles')->sortable(),
                 TextColumn::make('created_at')->dateTime(),
+
             ])
             ->filters([
                 //

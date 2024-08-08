@@ -70,4 +70,9 @@ class StatsOverview extends BaseWidget
 
         ];
     }
+public static function canView(): bool
+{
+    return auth()->user()->hasAnyRole(['superadmin', 'admin', 'superviseur']);
+}
+
 }

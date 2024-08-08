@@ -44,6 +44,12 @@ class CandidatOnline extends Model
         });
     }
 
+    public function commune()
+{
+    return $this->belongsTo(Commune::class, 'commune_residence');
+}
+
+
     public function categoriePermis()
     {
         return $this->belongsTo(CategorieModel::class, 'categorie_permis_id');

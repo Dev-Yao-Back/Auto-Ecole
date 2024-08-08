@@ -34,5 +34,5 @@ class FilamentServiceProvider extends ServiceProvider
 
     Filament::registerPages([
         POS::class,
-    ]);    }
+           ]);    }
 }

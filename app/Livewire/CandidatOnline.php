@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use PDF;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Commission;
 
 
 
@@ -72,6 +73,10 @@ class CandidatOnline extends Component
       $this->calculateTotal();
   }
 
+  public function backStep()
+  {
+    return redirect()->to('/');
+  }
 
   public function nextStep()
   {
@@ -207,6 +212,17 @@ class CandidatOnline extends Component
           'moyen_payement' => $this->moyen_payement,
       ]);
 
+      // Génération de la commission si un code promo est utilisé
+      if (!empty($this->promo_code)) {
+      $commercial = User::where('referral_code', $this->promo_code)->first();
+      if ($commercial) {
+          Commission::create([
+              'user_id' => $commercial->id,
+              'amount' => 5000, // Définir le montant de la commission
+            //  'candidat_id' => $candidat->id
+          ]);
+      }
+  }
      $this->qrCode = $this->generateBarcode($candidat->matricule);
 
      $this->generateAndPrintReceipt($candidat);

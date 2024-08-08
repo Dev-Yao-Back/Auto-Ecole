@@ -6,9 +6,10 @@ use App\Models\User;
 use App\Models\CategorieModel;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoriePolicy
+class CategorieModelPolicy
 {
 
+    use HandlesAuthorization;
     /**
      * Create a new policy instance.
      */

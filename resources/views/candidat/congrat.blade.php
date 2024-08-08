@@ -23,7 +23,7 @@
                     @if (session('moyen_payement') == 'Cash')
                         <p class="mb-0">Vous pouvez passer au Bureau pour effectuer votre</p>
                     @elseif (session('moyen_payement') == 'Wave')
-                        <a href="" class="btn btn-primary">Passer au Paiement</a>
+                        <a href="{{ route('front-pages-online-payement') }}" class="btn btn-primary">Passer au Paiement</a>
                     @else
                     @endif
 

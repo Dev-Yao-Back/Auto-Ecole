@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Policies\UserPolicy;
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -19,6 +19,9 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         Permission::class => PermissionPolicy::class,
         Role::class => RolePolicy::class,
+        CommercialDashBoard::class => CommercialDashBoardPolicy::class,
+        Candidat::class => CandidatPolicy::class,
+        CategorieModel::class => CategoriePolicy::class,
 
     ];
 
@@ -28,6 +31,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
+
+        Gate::define('view-commercial-dashboard', function ($user) {
+          // Your authorization logic here
+          return $user->hasRole('commercial');
+      });
+
         //
     }
 }

@@ -3,12 +3,11 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\CategorieModel;
+use App\Models\CandidatOnline;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoriePolicy
+class CandidatOnlinePolicy
 {
-
     /**
      * Create a new policy instance.
      */
@@ -22,7 +21,7 @@ class CategoriePolicy
         return $user->hasAnyRole(['superadmin', 'admin', 'superviseur']);
     }
 
-    public function view(User $user, CategorieModel $categorie)
+    public function view(User $user, CandidatOnline $candidat)
     {
         return $user->hasAnyRole(['superadmin', 'admin', 'superviseur']);
     }
@@ -32,22 +31,17 @@ class CategoriePolicy
         return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
-    public function update(User $user, CategorieModel $categorie)
+    public function update(User $user, CandidatOnline $candidat)
     {
         return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
-    public function delete(User $user, CategorieModel $categorie)
+    public function delete(User $user, CandidatOnline $candidat)
     {
         return $user->hasRole('superadmin');
     }
 
-    public function restore(User $user, CategorieModel $categorie)
-    {
-        return $user->hasRole('superadmin');
-    }
-
-    public function forceDelete(User $user, CategorieModel $categorie)
+    public function restore(User $user, CandidatOnline $candidat)
     {
         return $user->hasRole('superadmin');
     }

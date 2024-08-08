@@ -3,7 +3,7 @@
 return [
   "creatorName" => "GENIUS GROUPS",
   "creatorUrl" => "https://geniusgroups.ci",
-  "templateName" => "MVC 2024",
+  "templateName" => "GENIUS AUTO ECOLE",
   "templateSuffix" => "GENIUS GROUPS",
   "templateVersion" => "1.0.0",
   "templateFree" => false,

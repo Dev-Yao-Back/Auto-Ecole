@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
+use Bavix\Wallet\Interfaces\Wallet;
+use Bavix\Wallet\Traits\HasWallet;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasWallet;
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +25,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'referral_code',
+        'referred_by',
+
     ];
 
     /**
@@ -44,5 +49,30 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function referrals()
+    {
+        return $this->hasMany(Referral::class);
+    }
+
+    public function referredBy()
+    {
+        return $this->belongsTo(User::class, 'referred_by');
+    }
+
+    public function commissions()
+    {
+        return $this->hasMany(Commission::class);
+    }
+
+    public function getWeeklyReferrals($userId)
+  {
+    return CandidatModel::where('promo_code', function ($query) use ($userId) {
+        $query->select('promo_code')
+              ->from('users')
+              ->where('id', $userId);
+    })->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+      ->count();
+}
 
 }
