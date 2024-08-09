@@ -32,8 +32,7 @@ return new class extends Migration
             $table->string('number_piece');
             $table->string('categorie_permis');
             $table->string('moyen_payement');
-            $table->unsignedBigInteger('source_id');
-            $table->foreign('source_id')->references('id')->on('sources');
+            $table->string('promo_code')->nullable();
             $table->unsignedBigInteger('subvention_id');
             $table->foreign('subvention_id')->references('id')->on('subventions');
             $table->unsignedBigInteger('piece_id');

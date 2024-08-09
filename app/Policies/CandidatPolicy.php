@@ -17,12 +17,12 @@ class CandidatPolicy
 
     public function view(User $user, Candidat $candidat)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur', 'agent']);
+        return $user->hasAnyRole(['superadmin', 'admin', 'agent']);
     }
 
     public function create(User $user)
     {
-      return $user->hasAnyRole(['superadmin', 'admin', 'superviseur', 'agent']);
+      return $user->hasAnyRole(['superadmin', 'admin',  'agent']);
     }
 
     public function update(User $user, Candidat $candidat)

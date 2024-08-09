@@ -14,12 +14,12 @@ class PaymentPolicy
 
   public function viewAny(User $user)
   {
-      return $user->hasAnyRole(['superadmin', 'admin', 'superviseur', 'agent']);
+      return $user->hasAnyRole(['superadmin', 'admin',  ]);
   }
 
   public function view(User $user, Payment $payment)
   {
-      return $user->hasAnyRole(['superadmin', 'admin', 'superviseur', 'agent']);
+      return $user->hasAnyRole(['superadmin', 'admin', ]);
   }
 
   public function create(User $user)
@@ -47,4 +47,3 @@ class PaymentPolicy
       return $user->hasRole('superadmin');
   }
 }
-

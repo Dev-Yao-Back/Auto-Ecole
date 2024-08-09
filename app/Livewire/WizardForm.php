@@ -8,15 +8,18 @@ use App\Models\Piece;
 use App\Models\Source;
 use App\Models\Subvention;
 use App\Models\Candidat;
+use App\Models\CandidatOnline;
 use App\Models\CategorieModel;
 use Illuminate\Support\Str;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use PDF;
+use App\Models\User;
 
 class WizardForm extends Component
 {
     use WithFileUploads;
 
+    public $matricule; // Add this property to capture matricule
     public $date, $time;
     public $name, $surname, $phone1, $phone2, $father, $mother;
     public $sexe, $date_born, $source, $piece, $ref_piece, $piece_r, $piece_v;
@@ -32,16 +35,86 @@ class WizardForm extends Component
     public $candidateRegistered = false;
 
 
+    public function loadSources()
+    {
+        $this->sources = User::whereHas('roles', function ($query) {
+            $query->where('name', 'commerciaux');
+        })->get(['id', 'name', 'referral_code']);
+    }
 
     public function mount($categories, $subventions, $sources, $pieces)
     {
+
+        $this->name = '';
+        $this->surname = '';
+        $this->phone1 = '';
+        $this->phone2 = '';
+        $this->father = '';
+        $this->mother = '';
+        $this->sexe = '';
+        $this->source = '';
+        $this->piece = '';
+        $this->ref_piece = '';
+        $this->piece_r = '';
+        $this->piece_v = '';
+        $this->categorie = null; // Initialize the selected category
+        $this->autre = '';
+        $this->lib_piece = '';
+        $this->lib_source = '';
+
         $this->date = now()->format('d/m/Y');
         $this->time = now()->format('H:i:s');
         $this->prix_normal = 180000;
-        $this->sources = $sources;
+        $this->loadSources();
         $this->subventions = $subventions;
         $this->categories = $categories;
         $this->pieces = $pieces;
+
+    }
+
+    public function fetchCandidatOnline()
+    {
+        // Validate matricule input
+        $validatedData = $this->validate([
+            'matricule' => 'required|string|exists:candidat_onlines,matricule',
+        ]);
+
+        // Find the CandidatOnline using the matricule
+        $candidatOnline = CandidatOnline::where('matricule', $this->matricule)->first();
+
+        if (!$candidatOnline) {
+            session()->flash('error', 'Le Candidat est introuvable.');
+            return;
+        }
+
+        // Check if the CandidatOnline is already marked as "Inscrit"
+    if ($candidatOnline->libelle === 'Inscrit') { // Assuming there is a 'status' field
+      session()->flash('error', 'Ce Candidat est déjà inscrit.');
+      return;
+  }
+
+        // Populate the form fields with CandidatOnline data
+        $this->name = $candidatOnline->name;
+        $this->surname = $candidatOnline->surname;
+        $this->phone1 = $candidatOnline->tel_number1;
+        $this->phone2 = ''; // Assuming there's no phone2 in CandidatOnline
+        $this->father = ''; // Assuming no father information in CandidatOnline
+        $this->mother = ''; // Assuming no mother information in CandidatOnline
+        $this->sexe = $candidatOnline->sexe;
+        $this->date_born = optional($candidatOnline->date_birth)->format('d/m/Y');
+
+        $this->source = $candidatOnline->promo_code;
+        $this->piece = ''; // Assuming piece is not part of CandidatOnline
+        $this->ref_piece = ''; // Assuming reference piece is not part of CandidatOnline
+        $this->categorie = $candidatOnline->categorie_permis_id;
+        $this->subvention = $candidatOnline->subvention_id;
+        $this->autre = ''; // Assuming no other information in CandidatOnline
+
+        // Calculate payments based on subvention
+        $this->calculatePayment();
+
+        // Flash success message
+        session()->flash('success', 'Les données du Candidat Online ont été chargées avec succès.');
     }
 
     public function first_check()
@@ -73,7 +146,7 @@ class WizardForm extends Component
         $this->lib_categorie = CategorieModel::find($this->categorie)->type ?? 'N/A';
         $this->lib_subvention = Subvention::find($this->subvention)->type_subvention ?? 'N/A';
         $this->lib_piece = Piece::find($this->piece)->type_piece ?? 'N/A';
-        $this->lib_source = Source::find($this->source)->name ?? 'N/A';
+       // $this->lib_source = Source::find($this->source)->name ?? 'N/A';
 
         $this->next_step();
     }
@@ -107,14 +180,23 @@ class WizardForm extends Component
 
     public function next_step()
     {
-        $this->step = $this->step > 3 ? 1 : $this->step + 1;
-        $this->calculatePayment();
+      if ($this->step == 3) {
+        $this->step = 3;
+      } else {
+        $this->step = $this->step + 1;
+      }
+
+      $this->calculatePayment();
     }
 
     public function preview_step()
     {
-        $this->step = $this->step > 1 ? $this->step - 1 : 2;
-        $this->calculatePayment();
+      if ($this->step == 1) {
+        $this->step = 1;
+      } else {
+        $this->step = $this->step - 1;
+      }
+      $this->calculatePayment();
     }
 
     public function upload_check()
@@ -173,9 +255,25 @@ class WizardForm extends Component
             'autre' => '',
         ]);
 
+        // Vérifiez d'abord si un Candidat Online avec le même matricule existe
+    $candidatOnline = CandidatOnline::where('matricule', $this->matricule)->first();
+
+    if ($candidatOnline) {
+        // Changez le statut du Candidat Online
+
+        $candidatOnline->libelle = 'Inscrit';
+        $candidatOnline->save();
+
+        // Utilisez le matricule du Candidat Online pour le nouveau candidat
+        $newMatricule = $candidatOnline->matricule;
+    } else {
+        // Générez un nouveau matricule si aucun Candidat Online n'est trouvé
+        $newMatricule = $this->generateTicketNumber();
+    }
+
         Candidat::create([
             'name' => $this->name,
-            'matricule' => $this->ticketNumber,
+            'matricule' => $newMatricule,
             'surname' => $this->surname,
             'tel_number1' => $this->phone1,
             'tel_number2' => $this->phone2,
@@ -185,7 +283,7 @@ class WizardForm extends Component
             'sexe' => $this->sexe,
             'number_piece' => $this->ref_piece,
             'piece_id' => $this->piece,
-            'source_id' => $this->source,
+            'promo_code' => $this->source,
             'amont' => $this->total,
             'categorie_permis' => $this->categorie,
             'subvention_id' => $this->subvention,

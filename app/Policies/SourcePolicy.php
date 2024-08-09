@@ -12,12 +12,12 @@ class SourcePolicy
 
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur', ]);
+        return $user->hasAnyRole(['superadmin', 'admin',  ]);
     }
 
     public function view(User $user, Source $source)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur', ]);
+        return $user->hasAnyRole(['superadmin', 'admin', ]);
     }
 
     public function create(User $user)

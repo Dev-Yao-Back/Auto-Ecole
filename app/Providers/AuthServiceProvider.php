@@ -20,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         Permission::class => PermissionPolicy::class,
         Role::class => RolePolicy::class,
         CommercialDashBoard::class => CommercialDashBoardPolicy::class,
+        SuperviseurDashBoard::class => SuperviseurDashBoardPolicy::class,
         Candidat::class => CandidatPolicy::class,
         CategorieModel::class => CategoriePolicy::class,
 

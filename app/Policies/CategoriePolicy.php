@@ -24,7 +24,7 @@ class CategoriePolicy
 
     public function view(User $user, CategorieModel $categorie)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur']);
+        return $user->hasAnyRole(['superadmin', 'admin', ]);
     }
 
     public function create(User $user)

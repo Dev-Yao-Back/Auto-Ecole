@@ -87,19 +87,6 @@
             text-align: center;
             margin-top: 10px;
         }
-
-        .barcode-wrapper {
-            display: flex;
-            justify-content: center;
-            /* Centre l'élément horizontalement */
-            width: 100%;
-            /* Assure que le wrapper prend toute la largeur disponible */
-        }
-
-        .barcode {
-            text-align: center;
-            /* Centre le contenu textuel et les images à l'intérieur */
-        }
     </style>
 </head>
 
@@ -153,7 +140,7 @@
 
                         <tr>
                             <th>Reste</th>
-                            <td> {{ number_format($reste ?? 0, 0, '', ' ') }} FCFA</td>
+                            <td> {{ number_format($remaining ?? 0, 0, '', ' ') }} FCFA</td>
                         </tr>
                     </tbody>
                 </table>

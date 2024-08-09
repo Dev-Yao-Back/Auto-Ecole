@@ -108,7 +108,7 @@
                     <p>Client : {{ $name . ' ' . $surname }} </p>
                     <p>Sexe : {{ $sexe }}</p>
                     <p>Né(e) le : {{ $date_born }}</p>
-                    <p>Numéro de Téléphone : {{ $tel_number1 }}</p>
+                    <p>Numéro de Téléphone : {{ $phone1 }}</p>
                     <p>Magasin : Genius Auto</p>
                 </div>
             </div>

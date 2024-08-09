@@ -18,6 +18,7 @@ use Picqer\Barcode\BarcodeGeneratorHTML;
 use PDF;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Commission;
+use App\Models\User;
 
 
 
@@ -85,9 +86,13 @@ class CandidatOnline extends Component
         $this->validateFirstStep();
         $this->fetchAdditionalDetails();
 
+
 }     if ($this->step < 2) {
           $this->step++;
+
       }
+      $this->calculateTotal();
+
   }
 
   public function prevStep()
@@ -218,7 +223,8 @@ class CandidatOnline extends Component
       if ($commercial) {
           Commission::create([
               'user_id' => $commercial->id,
-              'amount' => 5000, // Définir le montant de la commission
+              'amount' => 5000,
+              'level' => 'Candidat',
             //  'candidat_id' => $candidat->id
           ]);
       }

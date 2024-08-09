@@ -21,7 +21,7 @@ class Candidat extends Model
         'name_dad',
         'name_moom',
         'amont',
-        'source_id',
+        'promo_code',
         'subvention_id',
         'piece_id',
         'lib_subvention',
@@ -49,12 +49,13 @@ class Candidat extends Model
         return $this->belongsTo(Subvention::class,'subvention_id');
     }
 
-    public function sources()
-    {
-        return $this->belongsTo(Source::class,'source_id');
-    }
     public function statut()
     {
         return $this->belongsTo(Statut::class,'statut_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(CategorieModel::class,'categorie_permis');
     }
 }

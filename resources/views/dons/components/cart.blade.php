@@ -61,7 +61,7 @@
                                         Catégorie - {{ $lib_categorie }}</a></p>
                                 <div class="text-muted mb-2 d-flex flex-wrap"><span class="me-1">Source
                                         :</span> <a href="javascript:void(0)" class="me-3"></a>
-                                    <span class="badge bg-label-success">{{ $lib_source }}</span>
+                                    <span class="badge bg-label-success">{{ $source }}</span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -112,8 +112,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <!-- Cart right -->

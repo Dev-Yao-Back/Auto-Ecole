@@ -12,12 +12,12 @@ class SubventionPolicy
 
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur']);
+        return $user->hasAnyRole(['superadmin', 'admin', ]);
     }
 
     public function view(User $user, Subvention $subvention)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur']);
+        return $user->hasAnyRole(['superadmin', 'admin', ]);
     }
 
     public function create(User $user)

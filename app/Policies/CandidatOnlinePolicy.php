@@ -38,7 +38,7 @@ class CandidatOnlinePolicy
 
     public function delete(User $user, CandidatOnline $candidat)
     {
-        return $user->hasRole('superadmin');
+        return $user->hasRole('superadmin', 'admin');
     }
 
     public function restore(User $user, CandidatOnline $candidat)

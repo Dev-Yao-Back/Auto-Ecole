@@ -11,12 +11,12 @@ class UserPolicy
 
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur']);
+        return $user->hasAnyRole(['superadmin', 'admin',]);
     }
 
     public function view(User $user, User $model)
     {
-        return $user->hasAnyRole(['superadmin', 'admin', 'superviseur']);
+        return $user->hasAnyRole(['superadmin', 'admin', ]);
     }
 
     public function create(User $user)

@@ -165,6 +165,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\CandidatOnlineController;
 use App\Http\Controllers\CommercialController;
+use App\Http\Controllers\SuperviseurController;
 
 
 
@@ -392,3 +393,6 @@ Route::get('/candidat/payement', [CandidatOnlineController::class, 'payement'])-
 Route::get('/commercial/register', [CommercialController::class, 'showRegister'])->name('commercial.showRegister');
 Route::post('/commercial/store', [CommercialController::class, 'register'])->name('commercial.register');
 Route::get('/dashboard/commercial', [CommercialController::class, 'showCommercial'])->name('dashboard.commercial');
+
+// Superviseur
+Route::get('/dashboard/superviseur', [SuperviseurController::class, 'showSuperviseur'])->name('dashboard.superviseur');

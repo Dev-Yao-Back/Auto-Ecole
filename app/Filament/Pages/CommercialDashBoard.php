@@ -25,7 +25,6 @@ class CommercialDashBoard extends Page
     {
        $this->authorize('view', CommercialDashBoard::class);
 
-
         return Redirect::route('dashboard.commercial');
     }
 
