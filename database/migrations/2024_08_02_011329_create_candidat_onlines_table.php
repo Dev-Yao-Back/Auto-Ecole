@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('sexe')->nullable();
             $table->date('date_birth')->nullable();
             $table->string('commune_residence')->nullable();
+            $table->foreignId('auto_ecole_id')->constrained()->nullable();
             $table->unsignedBigInteger('categorie_permis_id');
             $table->foreign('categorie_permis_id')->references('id')->on('categories');
             $table->unsignedBigInteger('subvention_id')->nullable();

@@ -38,6 +38,7 @@ class CommercialController extends Controller
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
+        'auto_ecole_id' => 1,
         'referral_code' => strtoupper(Str::random(10)),
         'referred_by' => User::where('referral_code', $data['referral_code'])->first()->id ?? null,
     ]);

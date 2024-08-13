@@ -62,6 +62,7 @@ class UsersTableSeeder extends Seeder
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'password' => $userData['password'],
+                'auto_ecole_id' => 1,
             ]);
             $user->assignRole($userData['role']);
         }

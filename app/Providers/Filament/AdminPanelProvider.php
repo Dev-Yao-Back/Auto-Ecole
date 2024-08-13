@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Http\Middleware\AutoEcoleScope;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -44,6 +45,7 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
 //                Widgets\FilamentInfoWidget::class,
 
+
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -55,6 +57,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                AutoEcoleScope::class, // Ajoutez votre middleware ici
             ])
             ->authMiddleware([
                 Authenticate::class,

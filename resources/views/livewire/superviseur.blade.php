@@ -112,7 +112,7 @@
                             <td>{{ $candidate->name }}</td>
                             <td>{{ $candidate->category->type }}</td>
                             <td>{{ $candidate->statut_id == 2 ? 'Validé' : 'En attente' }}</td>
-                            <td>{{ number_format($candidate->amont, 2) }} XOF</td>
+                            <td>{{ number_format($candidate->amont, 0, 0, ' ') }} FCFA</td>
                             <td>
                                 @if ($candidate->statut_id != 2)
                                     <button wire:click="validateCandidat({{ $candidate->id }})"

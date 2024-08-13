@@ -19,6 +19,7 @@ return new class extends Migration
           $table->string('password');
           $table->string('referral_code')->nullable();
           $table->unsignedBigInteger('referred_by')->nullable();
+          $table->foreignId('auto_ecole_id')->constrained('auto_ecoles')->onDelete('cascade')->nullable();
           $table->rememberToken();
           $table->timestamps();
         });

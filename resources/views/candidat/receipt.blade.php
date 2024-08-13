@@ -100,6 +100,7 @@
             <div class="details">
                 <div class="client-info">
                     <p>Date : {{ $date }}</p>
+                    <p>Auto-Ecole : {{ $store }}</p>
                     <p>Adresse : {{ $address }}</p>
                     <p>Email : {{ $email }}</p>
                     <p>Télé : {{ $phone }}</p>
@@ -107,7 +108,6 @@
                     <p>Sexe : {{ $gender }}</p>
                     <p>Né(e) le : {{ $birth_date }}</p>
                     <p>Numéro de Téléphone : {{ $client_phone }}</p>
-                    <p>Magasin : {{ $store }}</p>
                 </div>
             </div>
             <div class="items">

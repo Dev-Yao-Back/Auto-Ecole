@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password',
         'referral_code',
         'referred_by',
+        'auto_ecole_id',
 
     ];
 
@@ -73,6 +74,15 @@ class User extends Authenticatable
               ->where('id', $userId);
     })->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
       ->count();
+}
+public function autoEcole()
+{
+    return $this->belongsTo(AutoEcole::class, 'auto_ecole_id');
+}
+
+public function scopeOfAutoEcole($query, $autoEcoleId)
+{
+    return $query->where('auto_ecole_id', $autoEcoleId);
 }
 
 }

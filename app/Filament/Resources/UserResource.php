@@ -14,6 +14,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Hash;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Filters\SelectFilter;
+
 
 class UserResource extends Resource
 {
@@ -27,22 +36,27 @@ class UserResource extends Resource
     {
         return $form
         ->schema([
-          Forms\Components\TextInput::make('name')
+          TextInput::make('name')
               ->required()
               ->maxLength(255),
-          Forms\Components\TextInput::make('email')
+          TextInput::make('email')
               ->required()
               ->email()
               ->maxLength(255),
-          Forms\Components\TextInput::make('password')
+              TextInput::make('password')
               ->password()
               ->dehydrateStateUsing(fn ($state) => $state ? Hash::make($state) : null)
-              ->required(fn($record) => $record === null) // Required only on create
+              ->required(fn ($record) => !$record) // Requis seulement lors de la création
               ->minLength(8)
-              ->maxLength(255),
-          Forms\Components\Select::make('roles')
+              ->maxLength(255)
+              ->dehydrated(fn ($state) => filled($state)), // Assurez-vous que le champ n'est pas vide avant de hacher
+          Select::make('roles')
               ->relationship('roles', 'name')
               ->multiple(),
+              Select::make('auto_ecole_id')
+                    ->relationship('autoEcole', 'name')
+                    ->required()
+                    ->label('Auto École'),
       ]);
     }
 
@@ -54,15 +68,19 @@ class UserResource extends Resource
                 TextColumn::make('name')->sortable()->searchable(),
                 TextColumn::make('email')->sortable()->searchable(),
                 TextColumn::make('roles.name')->label('Roles')->sortable(),
-                TextColumn::make('created_at')->dateTime(),
+                TextColumn::make('autoEcole.name')
+                    ->label('Auto École'),
 
             ])
             ->filters([
-                //
-            ])
+              SelectFilter::make('auto_ecole_id')
+              ->label('Auto École')
+              ->relationship('autoEcole', 'name'),            ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+              ViewAction::make(),
+EditAction::make(),
+DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

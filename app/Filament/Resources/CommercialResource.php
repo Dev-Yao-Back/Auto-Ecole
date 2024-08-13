@@ -26,6 +26,13 @@ class CommercialResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Sales';
+
+    // Changez cette ligne pour renommer la ressource dans la navigation
+    protected static ?string $navigationLabel = 'Commerciaux';
+
+
+
     public static function getEloquentQuery(): Builder
     {
         // Modifiez la requête par défaut pour inclure seulement les utilisateurs avec le rôle 'commercial'

@@ -86,4 +86,11 @@ return [
 
     'livewire_loading_delay' => 'default',
 
+    'middleware' => [
+    'auth',
+    'web',
+    'autoecole', // Ajoutez votre middleware ici
+],
+
+
 ];

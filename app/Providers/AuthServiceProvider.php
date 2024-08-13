@@ -23,6 +23,8 @@ class AuthServiceProvider extends ServiceProvider
         SuperviseurDashBoard::class => SuperviseurDashBoardPolicy::class,
         Candidat::class => CandidatPolicy::class,
         CategorieModel::class => CategoriePolicy::class,
+        AutoEcole::class => AutoEcolePolicy::class,
+
 
     ];
 

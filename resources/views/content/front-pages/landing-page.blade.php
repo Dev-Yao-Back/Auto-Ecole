@@ -37,18 +37,17 @@
                     data-speed="1" />
                 <div class="container">
                     <div class="hero-text-box text-center">
-                        <h1 class="text-primary hero-title display-6 fw-bold">One dashboard to manage all your businesses
+                        <h1 class="text-primary hero-title display-6 fw-bold">Gagnez votre permis de conduire gratuitement !
                         </h1>
                         <h2 class="hero-sub-title h6 mb-4 pb-1">
-                            Production-ready & easy to use Admin Template<br class="d-none d-lg-block" />
-                            for Reliability and Customizability.
-                        </h2>
+                            Votre chemin vers la liberté commence ici – <br class="d-none d-lg-block" />
+                            avec la chance de gagner votre permis. </h2>
                         <div class="landing-hero-btn d-inline-block position-relative">
-                            <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">Join community
+                            <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">Tentez votre chance
                                 <img src="{{ asset('assets/img/front-pages/icons/Join-community-arrow.png') }}"
                                     alt="Ma Pré-Inscription" class="scaleX-n1-rtl" /></span>
-                            <a href="{{ route('front-pages-online') }}" class="btn btn-primary btn-lg">J'effectue ma
-                                Pré-Inscription</a>
+                            <a href="{{ route('front-pages-online') }}" class="btn btn-primary btn-lg">Postulez
+                                maintenant</a>
                         </div>
                     </div>
                     <div id="heroDashboardAnimation" class="hero-animation-img">

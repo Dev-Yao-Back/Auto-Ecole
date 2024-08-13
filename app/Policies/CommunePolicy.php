@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Commune;
 
 class CommunePolicy
 {
@@ -16,7 +17,7 @@ class CommunePolicy
     public function viewAny(User $user)
     {
         // Autoriser les admins et les gestionnaires à voir toutes les commissions
-        return $user->hasRole(['admin', 'superadmin']);
+        return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
     /**
@@ -25,7 +26,7 @@ class CommunePolicy
     public function view(User $user, Commune $commune)
     {
         // Autoriser si l'utilisateur est admin ou le propriétaire de la commission
-        return $user->hasRole('admin', 'superadmin');
+        return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
     /**
@@ -34,7 +35,7 @@ class CommunePolicy
     public function create(User $user)
     {
         // Seuls les admins peuvent créer des commissions
-        return $user->hasRole('admin', 'superadmin');
+        return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
     /**
@@ -43,7 +44,7 @@ class CommunePolicy
     public function update(User $user, Commune $commune)
     {
         // Autoriser si l'utilisateur est admin ou le propriétaire de la commission
-        return $user->hasRole('admin', 'superadmin');
+        return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
     /**
@@ -52,7 +53,7 @@ class CommunePolicy
     public function delete(User $user, Commune $commune)
     {
         // Seuls les admins peuvent supprimer des commissions
-        return $user->hasRole('admin', 'superadmin');
+        return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
     /**
@@ -61,7 +62,7 @@ class CommunePolicy
     public function restore(User $user, Commune $commune)
     {
         // Optionnel: implémenter selon besoin
-        return $user->hasRole('admin', 'superadmin');
+        return $user->hasAnyRole(['superadmin', 'admin']);
     }
 
     /**
@@ -70,6 +71,6 @@ class CommunePolicy
     public function forceDelete(User $user, Commune $commune)
     {
         // Optionnel: implémenter selon besoin
-        return $user->hasRole('admin', 'superadmin');
+        return $user->hasAnyRole(['superadmin', 'admin']);
     }
 }

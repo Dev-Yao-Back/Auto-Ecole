@@ -126,13 +126,13 @@
                             </div>
 
                             <div class="col-6">
-                                <label class="form-label">Source</label>
+                                <label class="form-label">Commercial</label>
                                 <select id="source" wire:model='source' class="selectpicker w-100 form-select">
                                     @if ($source)
                                         <option value="{{ $source }}" selected>
                                             {{ $source }}</option>
                                     @endif
-                                    <option default>Source</option>
+                                    <option default>Commercial</option>
 
                                     @foreach ($sources as $sc)
                                         <option value="{{ $sc->id }}">
@@ -141,7 +141,25 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="col-12">
+                            <br>
+                            @if ($commune_residence)
+                            @else
+                                <label class="form-label">Commune</label>
+                                <select id="commune_residence" wire:model='commune_residence'
+                                    class="selectpicker w-100 form-select">
+                                    <option default>Commune</option>
+                                    @foreach ($communes as $sc)
+                                        <option value="{{ $sc->id }}">
+                                            {{ $sc->nom_commune }}</option>
+                                    @endforeach
+                            @endif
+
+                            </select>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="col-lg-5 card-body">

@@ -19,6 +19,7 @@ use PDF;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Commission;
 use App\Models\User;
+use App\Models\AutoEcole;
 
 
 
@@ -52,6 +53,7 @@ class CandidatOnline extends Component
   public $total;
   public $apayer;
 
+  public $autoEcole;
 
   // State properties
   public $progress = 0;
@@ -126,16 +128,18 @@ class CandidatOnline extends Component
 
     public function generateAndPrintReceipt($candidat)
     {
+      $this->autoEcole = AutoEcole::find($candidat->auto_ecole_id);
+
         $data = [
             'date' => "{$this->date} {$this->time}",
-            'address' => 'Bonoumin, Cocody - Abidjan',
-            'email' => 'Stock@Genius.Ci',
-            'phone' => '+225 07 04 750 465',
+            'address' => $this->autoEcole->address,
+            'email' => $this->autoEcole->email,
+            'phone' => $this->autoEcole->phone,
             'client' => "{$this->name} {$this->surname}",
             'gender' => $this->sexe,
             'birth_date' => $this->date_birth,
             'client_phone' => $this->tel_number1,
-            'store' => 'Genius Auto',
+            'store' => $this->autoEcole->name,
             'category' => $this->lib_categorie,
             'subsidy' => $this->lib_subvention,
             'remaining' => $this->reste,

@@ -66,6 +66,7 @@ class CandidatOnlineResource extends Resource
                 Tables\Columns\TextColumn::make('commune.nom_commune')->label('Commune de Résidence'),
             ])
             ->filters([
+
                 Tables\Filters\SelectFilter::make('commune_residence')
                     ->label('Commune de Résidence')
                     ->options(Commune::pluck('nom_commune', 'id')),
@@ -90,6 +91,7 @@ class CandidatOnlineResource extends Resource
                 })->label('Date of Birth'),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

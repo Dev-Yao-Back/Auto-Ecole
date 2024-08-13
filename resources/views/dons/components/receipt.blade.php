@@ -102,14 +102,14 @@
             <div class="details">
                 <div class="client-info">
                     <p>Date : {{ $date . ' ' . $time }}</p>
-                    <p>Adresse : Bonoumin, Cocody - Abidjan</p>
-                    <p>Email : stock@genius.Ci</p>
-                    <p>Télé : +225 07 04 750 465</p>
+                    <p>Auto-Ecole : {{ $auto_Store }}</p>
+                    <p>Adresse : {{ $auto_Adresse }}</p>
+                    <p>Email : {{ $auto_Email }}</p>
+                    <p>Teléphone : {{ $auto_Phone }}</p>
                     <p>Client : {{ $name . ' ' . $surname }} </p>
                     <p>Sexe : {{ $sexe }}</p>
                     <p>Né(e) le : {{ $date_born }}</p>
                     <p>Numéro de Téléphone : {{ $phone1 }}</p>
-                    <p>Magasin : Genius Auto</p>
                 </div>
             </div>
             <div class="items">

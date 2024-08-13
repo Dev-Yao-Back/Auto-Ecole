@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('communes', function (Blueprint $table) {
             $table->id();
             $table->string('nom_commune');
+            $table->unsignedBigInteger('auto_ecole_id')->nullable();
+            $table->foreign('auto_ecole_id')->references('id')->on('auto_ecoles');
             $table->timestamps();
         });
     }

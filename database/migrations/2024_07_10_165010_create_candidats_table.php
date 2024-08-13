@@ -32,6 +32,8 @@ return new class extends Migration
             $table->string('number_piece');
             $table->string('categorie_permis');
             $table->string('moyen_payement');
+            $table->string('commune_residence')->nullable();
+            $table->foreignId('auto_ecole_id')->constrained()->nullable();
             $table->string('promo_code')->nullable();
             $table->unsignedBigInteger('subvention_id');
             $table->foreign('subvention_id')->references('id')->on('subventions');

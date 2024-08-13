@@ -13,4 +13,10 @@ class CategorieModel extends Model
 
     protected $fillable = ['type
     '];
-}
+
+    public function scopeOfAutoEcole($query, $autoEcoleId)
+    {
+        return $query->where('auto_ecole_id', $autoEcoleId);
+    }
+
+  }

@@ -25,6 +25,8 @@ class Candidat extends Model
         'subvention_id',
         'piece_id',
         'lib_subvention',
+        'auto_ecole_id',
+        'commune_residence',
         'reste',
         'autre',
         'piece_rec',
@@ -36,7 +38,34 @@ class Candidat extends Model
 
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($candidat) {
+            $candidat->auto_ecole_id = $candidat->autoEcoleByCommune() ?: 1;
+        });
 
+        static::updating(function ($candidat) {
+            $candidat->auto_ecole_id = $candidat->autoEcoleByCommune() ?: 1;
+        });
+    }
+
+    public function autoEcoleByCommune()
+    {
+    if ($this->commune_residence) {
+        $commune = Commune::with('autoEcoles')->find($this->commune_residence);
+        \Log::info('Auto-écoles liées à la commune:', ['Auto-Écoles' => $commune->autoEcoles->pluck('name')]);
+        if ($commune && $commune->autoEcoles->isNotEmpty()) {
+            return $commune->autoEcoles->first()->id;
+        }
+    }
+    return null;
+}
+
+    // Définir les relations avec Commune et AutoEcole
+    public function commune()
+    {
+        return $this->belongsTo(Commune::class);
+    }
 
 
     public function pieces()
@@ -58,4 +87,15 @@ class Candidat extends Model
     {
         return $this->belongsTo(CategorieModel::class,'categorie_permis');
     }
+
+    public function autoEcole()
+{
+    return $this->belongsTo(AutoEcole::class);
+}
+public function scopeOfAutoEcole($query, $autoEcoleId)
+{
+    return $query->where('auto_ecole_id', $autoEcoleId);
+}
+
+
 }

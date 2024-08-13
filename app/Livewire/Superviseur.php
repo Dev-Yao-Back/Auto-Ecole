@@ -22,6 +22,7 @@ class Superviseur extends Component
       $this->filters['statut_id'] = '1';  // Initialize the filter to only show 'Pending' candidates
       $this->updateCandidateList();
         $this->statsRevenue();
+      $this->loadCandidates();
 
       }
 
@@ -45,11 +46,16 @@ class Superviseur extends Component
   }
 
   public function loadCandidates()
-    {
-        $this->candidates = Candidat::when($this->filters['statut_id'], function ($query) {
+{
+    $autoEcoleId = auth()->user()->auto_ecole_id; // Assurez-vous que l'utilisateur est lié à une auto-école
+    $this->candidates = Candidat::query()
+        ->when($this->filters['statut_id'], function ($query) {
             $query->where('statut_id', $this->filters['statut_id']);
-        })->get();
-    }
+        })
+        ->where('auto_ecole_id', $autoEcoleId) // Filtrer par auto-école de l'utilisateur connecté
+        ->get();
+}
+
 
     public function validateCandidat($id)
     {
@@ -77,26 +83,30 @@ class Superviseur extends Component
 
 
 
-    public function statsRevenue()
-    {
-      $this->totalCandidates = Candidat::count();
-      $this->validatedCandidates = Candidat::where('statut_id', 2)->count();
+  public function statsRevenue()
+  {
+      $autoEcoleId = auth()->user()->auto_ecole_id; // Obtenez l'ID de l'auto-école de l'utilisateur connecté
+
+      // Utiliser 'when' pour ajouter conditionnellement le filtrage par auto-école
+      $this->totalCandidates = Candidat::where('auto_ecole_id', $autoEcoleId)->count();
+      $this->validatedCandidates = Candidat::where('auto_ecole_id', $autoEcoleId)->where('statut_id', 2)->count();
       $this->notValidatedCandidates = $this->totalCandidates - $this->validatedCandidates;
-      $this->nowValidatedCandidates = Candidat::where('statut_id', 2)->whereDate('updated_at', Carbon::today())->count();
+      $this->nowValidatedCandidates = Candidat::where('auto_ecole_id', $autoEcoleId)->where('statut_id', 2)->whereDate('updated_at', Carbon::today())->count();
 
       // Calculating this week's validated candidates
       $startOfWeek = Carbon::now()->startOfWeek();
       $endOfWeek = Carbon::now()->endOfWeek();
-      $this->weekValidatedCandidates = Candidat::where('statut_id', 2)
+      $this->weekValidatedCandidates = Candidat::where('auto_ecole_id', $autoEcoleId)
+          ->where('statut_id', 2)
           ->whereBetween('updated_at', [$startOfWeek, $endOfWeek])
           ->count();
 
+      $this->totalRevenue = Candidat::where('auto_ecole_id', $autoEcoleId)->sum('amont');
+      $this->validatedRevenue = Candidat::where('auto_ecole_id', $autoEcoleId)->where('statut_id', 2)->sum('amont');
+      $this->remainingRevenue = $this->totalRevenue - $this->validatedRevenue;
+      $this->todayRevenue = Candidat::where('auto_ecole_id', $autoEcoleId)->whereDate('updated_at', Carbon::today())->sum('amont');
+  }
 
-        $this->totalRevenue = Candidat::sum('amont');
-        $this->validatedRevenue = Candidat::where('statut_id', 2)->sum('amont');
-        $this->remainingRevenue = $this->totalRevenue - $this->validatedRevenue;
-        $this->todayRevenue = Candidat::whereDate('updated_at', Carbon::today())->sum('amont');
-    }
 
     public function render()
     {

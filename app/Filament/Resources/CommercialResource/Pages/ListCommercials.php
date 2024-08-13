@@ -10,9 +10,11 @@ class ListCommercials extends ListRecords
 {
     protected static string $resource = CommercialResource::class;
 
+
     protected function getHeaderActions(): array
     {
         return [
+
             Actions\CreateAction::make(),
         ];
     }

@@ -375,7 +375,7 @@ Route::post('/inscire', [InscriptionController::class, 'store'])->name('inscire'
 Route::get('/', [DonationController::class, 'index']);
 Route::post('/donate', [DonationController::class, 'processDonation'])->name('donate');
 
-Route::get('/pos', [CandidatController::class, 'feetch'])->name('pos');
+Route::get('/pos', [CandidatController::class, 'feetch'])->name('pos')->middleware('auth');
 Route::post('/inscription',[candidatController::class, 'store'])->name('inscription.store');
 
 //pdf
@@ -395,4 +395,4 @@ Route::post('/commercial/store', [CommercialController::class, 'register'])->nam
 Route::get('/dashboard/commercial', [CommercialController::class, 'showCommercial'])->name('dashboard.commercial');
 
 // Superviseur
-Route::get('/dashboard/superviseur', [SuperviseurController::class, 'showSuperviseur'])->name('dashboard.superviseur');
+Route::get('/dashboard/superviseur', [SuperviseurController::class, 'showSuperviseur'])->name('dashboard.superviseur')->middleware('autoecole');

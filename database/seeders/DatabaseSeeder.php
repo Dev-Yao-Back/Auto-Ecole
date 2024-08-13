@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+      $this->call(CommuneSeeder::class);
+      $this->call(AutoEcoleSeeder::class);
       $this->call(RolePermissionSeeder::class);
       $this->call(UsersTableSeeder::class);
       $this->call(StatutSeeder::class);
@@ -26,7 +28,6 @@ class DatabaseSeeder extends Seeder
       $this->call(CategorieSeeder::class);
       $this->call(SubventionSeeder::class);
       $this->call(SourceSeeder::class);
-      $this->call(CommuneSeeder::class);
 
  }
 

@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use PDF;
 use App\Models\User;
+use App\Models\Commune;
+use App\Models\AutoEcole;
 
 class WizardForm extends Component
 {
@@ -33,6 +35,9 @@ class WizardForm extends Component
     public $qrCode, $ticketNumber, $receiptUrl;
     public $receipt = false;
     public $candidateRegistered = false;
+
+    public $communes, $autoEcoles, $commune_residence, $candidat, $auto_Store, $auto_Adresse, $auto_Email, $auto_Phone;
+
 
 
     public function loadSources()
@@ -61,7 +66,7 @@ class WizardForm extends Component
         $this->autre = '';
         $this->lib_piece = '';
         $this->lib_source = '';
-
+        $this->communes = Commune::all();
         $this->date = now()->format('d/m/Y');
         $this->time = now()->format('H:i:s');
         $this->prix_normal = 180000;
@@ -102,7 +107,7 @@ class WizardForm extends Component
         $this->mother = ''; // Assuming no mother information in CandidatOnline
         $this->sexe = $candidatOnline->sexe;
         $this->date_born = optional($candidatOnline->date_birth)->format('d/m/Y');
-
+        $this->commune_residence = $candidatOnline->commune_residence;
         $this->source = $candidatOnline->promo_code;
         $this->piece = ''; // Assuming piece is not part of CandidatOnline
         $this->ref_piece = ''; // Assuming reference piece is not part of CandidatOnline
@@ -127,6 +132,7 @@ class WizardForm extends Component
             'father' => 'required',
             'mother' => 'required',
             'date_born' => 'required',
+            'commune_residence' => 'required',
             'sexe' => 'required',
             'piece' => 'required',
             'source' => 'required',
@@ -249,6 +255,7 @@ class WizardForm extends Component
             'source' => 'required',
             'categorie' => 'required',
             'subvention' => 'required',
+            'commune_residence' => 'required',
             'ref_piece' => 'required',
             'piece_r' => 'required|file',
             'piece_v' => 'required|file',
@@ -271,7 +278,7 @@ class WizardForm extends Component
         $newMatricule = $this->generateTicketNumber();
     }
 
-        Candidat::create([
+       $this->candidat = Candidat::create([
             'name' => $this->name,
             'matricule' => $newMatricule,
             'surname' => $this->surname,
@@ -288,6 +295,7 @@ class WizardForm extends Component
             'categorie_permis' => $this->categorie,
             'subvention_id' => $this->subvention,
             'lib_subvention' => $this->lib_subvention,
+            'commune_residence' => $this->commune_residence,
             'reste' => $this->reste,
             'autre' => $this->autre,
             'piece_rec' => $rectoPath,
@@ -297,22 +305,31 @@ class WizardForm extends Component
 
         ]);
 
+        $this->autoEcole = AutoEcole::find($this->candidat->auto_ecole_id);
+
+        $this->auto_Store = $this->autoEcole->name;
+        $this->auto_Adresse = $this->autoEcole->address;
+        $this->auto_Email = $this->autoEcole->email;
+        $this->auto_Phone = $this->autoEcole->phone;
+
         $this->open();
         $this->candidateRegistered = true;
     }
 
     public function generateAndPrintReceipt()
     {
+      $this->autoEcole = AutoEcole::find($this->candidat->auto_ecole_id);
+
         $data = [
             'date' => "{$this->date} {$this->time}",
-            'address' => 'Bonoumin, Cocody - Abidjan',
-            'email' => 'Stock@Genius.Ci',
-            'phone' => '+225 07 04 750 465',
+            'address' => $this->autoEcole->address,
+            'email' => $this->autoEcole->email,
+            'phone' => $this->autoEcole->phone,
             'client' => "{$this->name} {$this->surname}",
             'gender' => $this->sexe,
             'birth_date' => $this->date_born,
             'client_phone' => $this->phone1,
-            'store' => 'Genius Auto',
+            'store' => $this->autoEcole->name,
             'category' => $this->lib_categorie,
             'price' => $this->prix_normal,
             'subsidy' => $this->lib_subvention,

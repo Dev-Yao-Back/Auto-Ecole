@@ -21,4 +21,10 @@ class Commission extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeOfAutoEcole($query, $autoEcoleId)
+{
+    return $query->where('auto_ecole_id', $autoEcoleId);
+}
+
 }
